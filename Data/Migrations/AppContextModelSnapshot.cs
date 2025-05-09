@@ -33,13 +33,18 @@ namespace Data.Migrations
                     b.Property<int>("CommentAuthorId")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<int>("PostId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("character varying(300)");
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -87,13 +92,11 @@ namespace Data.Migrations
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("Updated")
                         .HasColumnType("timestamp with time zone");
@@ -166,7 +169,7 @@ namespace Data.Migrations
                         .IsRequired();
 
                     b.HasOne("Data.Models.Post", "Post")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -215,6 +218,11 @@ namespace Data.Migrations
                         .HasForeignKey("GroupsToPostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Data.Models.Post", b =>
+                {
+                    b.Navigation("Comments");
                 });
 
             modelBuilder.Entity("Data.Models.User", b =>

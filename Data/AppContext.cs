@@ -14,7 +14,12 @@ namespace Data
         {
             modelBuilder.Entity<Group>().HasMany(c => c.Followers).WithMany(x => x.Subscriptions);
             modelBuilder.Entity<Group>().HasMany(c => c.Authors).WithMany(x => x.GroupsToPost);
-
+            modelBuilder.Entity<Post>()
+                .HasOne(x => x.Author)
+                .WithMany(x => x.Posts)
+                .HasForeignKey(x => x.AuthorId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
             base.OnModelCreating(modelBuilder);
         }
     }

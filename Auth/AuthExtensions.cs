@@ -17,6 +17,7 @@ namespace Auth
         {
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<JwtService>();
+            services.Configure<AuthSettings>(configuration.GetSection("AuthSettings"));
             var settings = configuration.GetSection(nameof(AuthSettings)).Get<AuthSettings>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(o =>

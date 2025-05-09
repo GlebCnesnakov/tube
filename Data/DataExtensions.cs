@@ -21,6 +21,7 @@ namespace Data
                 x.UseNpgsql(confString);
             });
             services.AddScoped<IPostContract, PostService>();
+            services.AddScoped<ICommentService, CommentService>();
             return services;
         }
     }
